@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
-    const [data, setData] = useState("")
+    const handleLogin = data => {
+        console.log(data);
+    }
     return (
-        <div className='h-[480px] w-[370px] md:w-[390px]  mx-auto flex justify-center items-center shadow-xl rounded-md'>
+        <div className='mt-32 h-[480px] w-[370px] md:w-[390px]  mx-auto flex justify-center items-center shadow-xl rounded-md'>
             <div>
                 <h1 className='text-xl text-center font-bold'>Login</h1>
-                <form onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
+                <form onSubmit={handleSubmit(handleLogin)}>
                     <div className="form-control w-[330px] mt-[30px]">
                         <label className="label">
                             <span className="label-text font-semibold">Email</span>
