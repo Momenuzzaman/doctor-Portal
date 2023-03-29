@@ -5,10 +5,11 @@ const AppointmentsOption = ({ option }) => {
     return (
         <div className="card shadow-xl">
             <div className="card-body text-center">
-                <h2 className="card-title">Card title!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
+                <h2 className="text-secondary text-2xl font-semibold">{name}</h2>
+                <p>{slots.length > 0 ? slots[0] : 'Try Another day'}</p>
+                <p>{slots.length} {slots.length > 0 ? 'Spaces' : 'Space'} Available</p>
+                <div className="card-actions justify-center ">
+                    <button className="btn btn-secondary text-white">BOOK APPOINTMENT</button>
                 </div>
             </div>
         </div>
