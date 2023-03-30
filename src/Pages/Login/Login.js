@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
 
 const Login = () => {
+    const [error, setError] = useState('');
+    const { logIn } = useContext(AuthContext);
+    console.log(logIn);
     const { register, formState: { errors }, handleSubmit } = useForm();
     const handleLogin = data => {
-        console.log(data);
-        console.log(errors)
+        setError('');
+        logIn(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(err => setError(err.message));
     }
     return (
         <div className='mt-32 h-[480px] w-[370px] md:w-[390px]  mx-auto flex justify-center items-center shadow-xl rounded-md'>
@@ -41,6 +50,7 @@ const Login = () => {
                         </label>
                     </div>
                     <input type="submit" className='w-full btn btn-accent' value="Login" />
+                    {error && <p className='text-red-500'>{error}</p>}
                 </form>
                 <p className='text-center'>New to Doctor Portal? <Link to='/signup' className='text-secondary'> Create new account</Link></p>
                 <div className="divider">OR</div>
