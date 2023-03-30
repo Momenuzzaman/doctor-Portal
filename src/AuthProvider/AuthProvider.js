@@ -7,18 +7,22 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const signUp = (email, password) => {
+        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
     const logIn = (email, password) => {
+        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     };
     const logOut = () => {
+        setLoading(true);
         signOut(auth)
             .then(() => { });
     };
-    const updateProfile = (userInfo) => {
+    const updateUser = (userInfo) => {
         return updateProfile(user, userInfo);
     };
     const authInfo = {
@@ -26,12 +30,14 @@ const AuthProvider = ({ children }) => {
         logIn,
         logOut,
         user,
-        updateProfile
+        updateUser,
+        loading
     }
 
     useEffect(() => {
         const subscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
+            setLoading(false);
         });
         return () => subscribe;
     }, []);
