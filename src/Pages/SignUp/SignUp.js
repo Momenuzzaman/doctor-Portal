@@ -8,17 +8,20 @@ import { AuthContext } from '../../AuthProvider/AuthProvider';
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const { signUp } = useContext(AuthContext);
+    const { signUp, updateProfile } = useContext(AuthContext);
 
     const handleSignUp = data => {
         signUp(data.email, data.password)
             .then(result => {
                 const user = result.user;
+                const userInfo = { displayName: data.name };
+                updateProfile(userInfo)
+                    .then(() => { })
+                    .catch(err => console.log(err));
                 console.log(user);
             })
             .catch(err => console.error(err));
         console.log(data);
-        console.log(errors)
     };
 
     return (
@@ -31,7 +34,7 @@ const SignUp = () => {
                             <span className="label-text font-semibold">Name</span>
                         </label>
                         <input type="text" {
-                            ...register("text",
+                            ...register("name",
                                 {
                                     required: "Name is required"
                                 })}
