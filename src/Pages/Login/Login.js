@@ -8,8 +8,22 @@ const Login = () => {
     const navigate = useNavigate();
     let from = location.state?.from?.pathname || "/";
     const [error, setError] = useState('');
-    const { logIn } = useContext(AuthContext);
+    const { logIn, singUpWithGoogle } = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit } = useForm();
+
+
+    const handleGoogleSignUp = () => {
+        setError('');
+        singUpWithGoogle()
+            .then(result => {
+                const user = result.user
+                console.log(user);
+            })
+            .catch(error => {
+                setError(error.message);
+            })
+    };
+
     const handleLogin = data => {
         setError('');
         logIn(data.email, data.password)
@@ -57,7 +71,7 @@ const Login = () => {
                 </form>
                 <p className='text-center'>New to Doctor Portal? <Link to='/signup' className='text-secondary'> Create new account</Link></p>
                 <div className="divider">OR</div>
-                <button className="btn btn-outline w-full">CONTINUE WITH GOOGLE</button>
+                <button onClick={handleGoogleSignUp} className="btn btn-outline w-full">CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     )
