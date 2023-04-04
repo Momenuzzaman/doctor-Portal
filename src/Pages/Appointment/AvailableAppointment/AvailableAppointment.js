@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { format } from 'date-fns';
 import AppointmentsOption from '../AppointmentOptions/AppointmentsOption';
 import BookingModal from '../BookingModal/BookingModal';
+import { useQuery } from 'react-query';
 const AvailableAppointment = ({ selectedDate }) => {
-    const [appointmentOptions, setAppointmentOptions] = useState([]);
+
     const [treatment, setTreatment] = useState(null);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/appointmentCollections',)
-            .then(response => response.json())
-            .then(data => setAppointmentOptions(data));
-    }, []);
+    const { data: appointmentOptions = [] } = useQuery({
+        queryKeys: ['appointmentCollections'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/appointmentCollections')
+            const data = await res.json();
+            return data;
+        }
+
+    });
+
     return (
         <div className="my-16">
             <p className="text-center text-2xl  text-secondary">Available Services on  {format(selectedDate, 'PP')}</p>
