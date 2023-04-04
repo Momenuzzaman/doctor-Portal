@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { format } from 'date-fns';
 import { AuthContext } from '../../../AuthProvider/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
     const { user } = useContext(AuthContext);
@@ -24,8 +25,21 @@ const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
             email,
             phone
         };
-        console.log(booking);
-        setTreatment(null);
+
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    setTreatment(null);
+                    toast.success('Booking confirmed');
+                }
+            })
     };
     return (
         <>

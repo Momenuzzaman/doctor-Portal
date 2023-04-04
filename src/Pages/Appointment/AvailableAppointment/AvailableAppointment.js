@@ -6,11 +6,11 @@ import { useQuery } from 'react-query';
 const AvailableAppointment = ({ selectedDate }) => {
 
     const [treatment, setTreatment] = useState(null);
-
+    const date = format(selectedDate, 'PP');
     const { data: appointmentOptions = [] } = useQuery({
-        queryKeys: ['appointmentCollections'],
+        queryKeys: ['appointmentCollections', date],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/appointmentCollections')
+            const res = await fetch(`http://localhost:5000/appointmentCollections?date=${date}`)
             const data = await res.json();
             return data;
         }
