@@ -3,11 +3,12 @@ import { format } from 'date-fns';
 import AppointmentsOption from '../AppointmentOptions/AppointmentsOption';
 import BookingModal from '../BookingModal/BookingModal';
 import { useQuery } from 'react-query';
+import Loading from '../../Shared/Loading/Loading';
 const AvailableAppointment = ({ selectedDate }) => {
 
     const [treatment, setTreatment] = useState(null);
     const date = format(selectedDate, 'PP');
-    const { data: appointmentOptions = [], refetch } = useQuery({
+    const { data: appointmentOptions = [], refetch, isLoading } = useQuery({
         queryKeys: ['appointmentCollections', date],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/appointmentCollections?date=${date}`)
@@ -15,7 +16,9 @@ const AvailableAppointment = ({ selectedDate }) => {
             return data;
         }
     });
-
+    if (isLoading) {
+        return <Loading></Loading>
+    }
     return (
         <div className="my-16">
             <p className="text-center text-2xl  text-secondary">Available Services on  {format(selectedDate, 'PP')}</p>
