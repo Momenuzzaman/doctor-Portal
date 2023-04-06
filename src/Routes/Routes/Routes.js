@@ -1,4 +1,5 @@
 import DashBoard from "../../DashBoard/DashBoard/DashBoard";
+import DashboardAppointment from "../../DashBoard/DashboardAppointment/DashboardAppointment";
 import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
 import Appointment from "../../Pages/Appointment/Appointment/Appointment";
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/dashboard',
-                element: <DashBoard></DashBoard>
+                element: <DashboardAppointment></DashboardAppointment>
             }
         ]
     }
