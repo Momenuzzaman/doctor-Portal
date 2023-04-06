@@ -1,4 +1,5 @@
 import DashBoard from "../../DashBoard/DashBoard/DashBoard";
+import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
 import Appointment from "../../Pages/Appointment/Appointment/Appointment";
 import Home from "../../Pages/Home/Home/Home";
@@ -34,8 +35,14 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivateRoutes>
-            <DashBoard></DashBoard>
-        </PrivateRoutes>
+            <DashboardLayout></DashboardLayout>
+        </PrivateRoutes>,
+        children: [
+            {
+                path: '/dashboard',
+                element: <DashBoard></DashBoard>
+            }
+        ]
     }
 ]);
 

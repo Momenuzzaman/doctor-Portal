@@ -20,7 +20,7 @@ const InfoCards = () => {
             bgClass: 'bg-accent',
         },
         {
-            id: 2,
+            id: 3,
             name: 'Contact Us',
             description: '+000 123 456789',
             icon: phone,
