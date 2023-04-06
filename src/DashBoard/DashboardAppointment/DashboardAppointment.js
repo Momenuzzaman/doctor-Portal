@@ -34,7 +34,7 @@ const DashboardAppointment = () => {
                         {
                             bookings.map((booking, i) => {
                                 const { patientName, treatment, appointmentData, slot } = booking;
-                                return <tr>
+                                return <tr key={booking._id}>
                                     <th>{i + 1}</th>
                                     <td>{patientName}</td>
                                     <td>{treatment}</td>
