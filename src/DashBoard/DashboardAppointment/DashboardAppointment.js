@@ -10,13 +10,18 @@ const DashboardAppointment = () => {
     const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
-            const res = await fetch(url, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
-            });
+            const res = await fetch(url,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                }
+            );
             const data = await res.json();
             return data
         }
     });
+    console.log(bookings)
     return (
         <div>
             <h3 className="text-3xl m-6">My Appointment</h3>

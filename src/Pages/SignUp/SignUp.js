@@ -64,10 +64,21 @@ const SignUp = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                console.log('save user', data);
                 setCreatedUserEmail(email)
             })
     };
+    // const getUserToken = email => {
+    //     fetch(`http://localhost:5000/jwt?email=${email}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             if (data.accessToken) {
+    //                 console.log(data)
+    //                 localStorage.setItem('accessToken', data.accessToken);
+    //                 navigate('/')
+    //             }
+    //         })
+    // }
     return (
         <div className='mt-32 h-[550px] w-[370px] md:w-[390px]  mx-auto flex justify-center items-center shadow-xl rounded-md'>
             <div>

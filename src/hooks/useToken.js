@@ -6,10 +6,10 @@ const useToken = email => {
     useEffect(() => {
         if (email) {
             fetch(`http://localhost:5000/jwt?email=${email}`)
-                .then(response => response.json())
+                .then(res => res.json())
                 .then(data => {
                     if (data.accessToken) {
-                        localStorage.setItem('access_token', data.accessToken);
+                        localStorage.setItem('accessToken', data.accessToken);
                         setToken(data.accessToken)
                     }
                 })
