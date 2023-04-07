@@ -1,3 +1,4 @@
+import AllUsers from "../../DashBoard/AllUsers/AllUsers";
 import DashBoard from "../../DashBoard/DashBoard/DashBoard";
 import DashboardAppointment from "../../DashBoard/DashboardAppointment/DashboardAppointment";
 import DashboardLayout from "../../Layout/DashboardLayout";
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: <DashboardAppointment></DashboardAppointment>
-            }
+            },
+            {
+                path: '/dashboard/all-users',
+                element: <AllUsers></AllUsers>
+            },
         ]
     }
 ]);
