@@ -58,9 +58,20 @@ const SignUp = () => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                navigate('/')
+                getUserToken(email);
             })
-    }
+    };
+
+    const getUserToken = (email) => {
+        fetch(`http://localhost:5000/jwt?email=${email}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.accessToken) {
+                    localStorage.setItem('access_token', data.accessToken);
+                    navigate('/')
+                }
+            })
+    };
     return (
         <div className='mt-32 h-[550px] w-[370px] md:w-[390px]  mx-auto flex justify-center items-center shadow-xl rounded-md'>
             <div>
