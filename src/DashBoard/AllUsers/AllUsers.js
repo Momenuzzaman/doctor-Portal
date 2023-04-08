@@ -15,7 +15,10 @@ const AllUsers = () => {
 
     const handleMakeAdmin = (id) => {
         fetch(`http://localhost:5000/users/admin/${id}`, {
-            method: 'PUT'
+            method: 'PUT',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
         })
             .then(response => response.json())
             .then(data => {
@@ -46,8 +49,8 @@ const AllUsers = () => {
                                 <th>{i + 1}</th>
                                 <td>{name}</td>
                                 <td>{email}</td>
-                                <td>{user?.role !== 'admin' && <button onClick={() => handleMakeAdmin(_id)} class="btn btn-xs btn-primary">Make Admin</button>}</td>
-                                <td><button class="btn btn-xs btn-danger">Delete</button></td>
+                                <td>{user?.role !== 'admin' && <button onClick={() => handleMakeAdmin(_id)} className="btn btn-xs btn-primary">Make Admin</button>}</td>
+                                <td><button className="btn btn-xs btn-danger">Delete</button></td>
                             </tr>
                         })
                     }

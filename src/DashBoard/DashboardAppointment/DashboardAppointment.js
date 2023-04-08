@@ -5,7 +5,6 @@ import { useQuery } from 'react-query';
 const DashboardAppointment = () => {
     const { user } = useContext(AuthContext)
     const url = `http://localhost:5000/bookings?email=${user?.email}`;
-    console.log(url);
 
     const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
@@ -21,7 +20,6 @@ const DashboardAppointment = () => {
             return data
         }
     });
-    console.log(bookings)
     return (
         <div>
             <h3 className="text-3xl m-6">My Appointment</h3>
