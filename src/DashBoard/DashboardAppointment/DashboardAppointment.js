@@ -20,6 +20,7 @@ const DashboardAppointment = () => {
             return data
         }
     });
+    console.log(bookings)
     return (
         <div>
             <h3 className="text-3xl m-6">My Appointment</h3>
@@ -37,7 +38,7 @@ const DashboardAppointment = () => {
                     </thead>
                     <tbody>
                         {
-                            bookings.map((booking, i) => {
+                            bookings && bookings.map((booking, i) => {
                                 const { patientName, treatment, appointmentData, slot } = booking;
                                 return <tr key={booking._id}>
                                     <th>{i + 1}</th>

@@ -8,6 +8,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
     console.log(user);
     const { name, slots } = treatment;
     const date = format(selectedDate, 'PP');
+    console.log(date);
 
     const formSubmitHandler = event => {
         event.preventDefault();
@@ -18,14 +19,14 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
         const slot = form.slot.value;
 
         const booking = {
-            appointmentData: date,
+            appointmentDate: date,
             treatment: name,
             patientName,
             slot,
             email,
             phone
         };
-
+        console.log(booking)
         fetch('http://localhost:5000/bookings', {
             method: 'POST',
             headers: {
