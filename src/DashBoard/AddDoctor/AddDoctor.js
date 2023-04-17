@@ -1,12 +1,25 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
+import { useQuery } from 'react-query';
+import Loading from '../../Pages/Shared/Loading/Loading';
 
 const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
 
-
+    const { data: specialties, isLoading } = useQuery({
+        queryKey: ['Specialty'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/appointmentSpecialty');
+            const data = res.json();
+            return data;
+        }
+    });
+    console.log(specialties)
     const handleAddDoctor = (data) => {
         console.log(data);
+    }
+    if (isLoading) {
+        return <Loading></Loading>
     }
     return (
         <div className="mt-10 h-[550px] w-[370px] md:w-[390px]  mx-auto flex justify-center items-center shadow-xl rounded-md">
@@ -37,10 +50,19 @@ const AddDoctor = () => {
                             className="input input-bordered w-full " />
                         {errors.email && <p className='text-red-500'>{errors.email?.message}</p>}
                     </div>
-                    <div className="form-control  w-[330px]">
+                    <div className="form-control">
                         <label className="label">
-                            <span className="label-text font-semibold">Password</span>
+                            <span className="label-text font-semibold">Specialty</span>
                         </label>
+                        <select className="select select-ghost w-full mb-5">
+                            <option disabled selected>Pick a Specialty</option>
+                            {
+                                specialties.map((specialty) => <option
+                                    key={specialty._id}
+                                    value={specialty.name}
+                                >{specialty.name}</option>)
+                            }
+                        </select>
                     </div>
                     <input type="submit" className='w-full btn btn-accent' value="Add Doctor" />
                 </form>
