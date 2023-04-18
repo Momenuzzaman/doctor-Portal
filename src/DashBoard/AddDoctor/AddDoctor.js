@@ -5,7 +5,7 @@ import Loading from '../../Pages/Shared/Loading/Loading';
 
 const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-
+    const imgHostKey = process.env.REACT_APP_imhbb_key;
     const { data: specialties, isLoading } = useQuery({
         queryKey: ['Specialty'],
         queryFn: async () => {
@@ -14,9 +14,22 @@ const AddDoctor = () => {
             return data;
         }
     });
-    console.log(specialties)
+    // console.log(specialties)
     const handleAddDoctor = (data) => {
-        console.log(data);
+        const image = data.image[0];
+        const formData = new FormData();
+        formData.append("image", image);
+        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgHostKey}`
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
+                    console.log(imgData.data.url)
+                }
+            })
     }
     if (isLoading) {
         return <Loading></Loading>
@@ -65,17 +78,17 @@ const AddDoctor = () => {
                             }
                         </select>
                     </div>
-                    <div class="flex w-full  items-center justify-center bg-grey-lighter mb-4">
-                        <label class="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-300 hover:text-white ">
-                            <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <div className="flex w-full  items-center justify-center bg-grey-lighter mb-4">
+                        <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-300 hover:text-white ">
+                            <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                             </svg>
-                            <span class="mt-2 text-base leading-normal">Select a Image</span>
+                            <span className="mt-2 text-base leading-normal">Select a Image</span>
                             <input type='file'
-                                {...register('img', {
+                                {...register('image', {
                                     required: "Photo is required",
                                 })}
-                                class="hidden" />
+                                className="hidden" />
                             {errors.img && <p className="text-red-500">{errors.img.message}</p>}
                         </label>
                     </div>
