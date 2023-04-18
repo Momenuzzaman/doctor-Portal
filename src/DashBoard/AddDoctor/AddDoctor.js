@@ -2,8 +2,11 @@ import React from 'react'
 import { useForm } from "react-hook-form";
 import { useQuery } from 'react-query';
 import Loading from '../../Pages/Shared/Loading/Loading';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AddDoctor = () => {
+    const navigate = useNavigate()
     const { register, formState: { errors }, handleSubmit } = useForm();
     const imgHostKey = process.env.REACT_APP_imhbb_key;
     const { data: specialties, isLoading } = useQuery({
@@ -27,7 +30,27 @@ const AddDoctor = () => {
             .then(res => res.json())
             .then(imgData => {
                 if (imgData.success) {
-                    console.log(imgData.data.url)
+                    const doctor = {
+                        name: data.name,
+                        email: data.email,
+                        specialty: data.specialty,
+                        image: imgData.data.url
+                    }
+                    fetch('http://localhost:5000/doctors', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(doctor)
+                    })
+                        .then(res => res.json())
+                        .then(result => {
+                            console.log(result)
+                            toast.success(`${data.name} is added successfully`);
+                            navigate('/dashboard/doctors')
+
+                        })
                 }
             })
     }
