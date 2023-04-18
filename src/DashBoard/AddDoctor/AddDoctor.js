@@ -22,7 +22,7 @@ const AddDoctor = () => {
         const image = data.image[0];
         const formData = new FormData();
         formData.append("image", image);
-        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgHostKey}`
+        const url = `https://api.imgbb.com/1/upload?key=${imgHostKey}`
         fetch(url, {
             method: 'POST',
             body: formData
@@ -40,7 +40,7 @@ const AddDoctor = () => {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
-                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
                         },
                         body: JSON.stringify(doctor)
                     })
@@ -49,7 +49,6 @@ const AddDoctor = () => {
                             console.log(result)
                             toast.success(`${data.name} is added successfully`);
                             navigate('/dashboard/doctors')
-
                         })
                 }
             })
