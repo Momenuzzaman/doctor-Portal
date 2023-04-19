@@ -62,7 +62,10 @@ const ManageDoctor = () => {
                 </table>
             </div>
             {
-                deletingDoctor && <ConfirmationModal></ConfirmationModal>
+                deletingDoctor && <ConfirmationModal
+                    title={`Are you sure you want to delete?`}
+                    message={`If you delete ${deletingDoctor.name}. It can't be undone`}
+                ></ConfirmationModal>
             }
         </div>
     )
