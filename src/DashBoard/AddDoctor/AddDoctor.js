@@ -9,6 +9,7 @@ const AddDoctor = () => {
     const navigate = useNavigate()
     const { register, formState: { errors }, handleSubmit } = useForm();
     const imgHostKey = process.env.REACT_APP_imhbb_key;
+
     const { data: specialties, isLoading } = useQuery({
         queryKey: ['Specialty'],
         queryFn: async () => {

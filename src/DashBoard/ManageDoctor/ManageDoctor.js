@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import Loading from '../../Pages/Shared/Loading/Loading';
+import ConfirmationModal from '../../Pages/Shared/ConfirmationModal/ConfirmationModal';
 
 const ManageDoctor = () => {
+    const [deletingDoctor, setDeletingDoctor] = useState(null)
     const { data: doctors, isLoading } = useQuery({
         queryKey: ['doctors'],
         queryFn: async () => {
@@ -40,7 +42,7 @@ const ManageDoctor = () => {
                         {
                             doctors && doctors?.map((doctor, i) => {
                                 const { name, image, email, specialty } = doctor
-                                return <tr>
+                                return <tr key={doctor._id}>
                                     <th>{i + 1}</th>
                                     <td><div className="avatar">
                                         <div className="w-24 rounded-full">
@@ -50,13 +52,18 @@ const ManageDoctor = () => {
                                     <td>{name}</td>
                                     <td>{email}</td>
                                     <td>{specialty}</td>
-                                    <td><button className="btn btn-sm  btn-error">Delete</button></td>
+                                    <td>
+                                        <label onClick={() => setDeletingDoctor(doctor)} htmlFor="confirmation-modal" className="btn  btn-sm  btn-error">Delete</label>
+                                    </td>
                                 </tr>
                             })
                         }
                     </tbody>
                 </table>
             </div>
+            {
+                deletingDoctor && <ConfirmationModal></ConfirmationModal>
+            }
         </div>
     )
 }
