@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import Loading from '../../Pages/Shared/Loading/Loading';
 import ConfirmationModal from '../../Pages/Shared/ConfirmationModal/ConfirmationModal';
+import { toast } from 'react-hot-toast';
 
 const ManageDoctor = () => {
     const [deletingDoctor, setDeletingDoctor] = useState(null)
-    const { data: doctors, isLoading } = useQuery({
+    const { data: doctors, isLoading, refetch } = useQuery({
         queryKey: ['doctors'],
         queryFn: async () => {
             try {
@@ -20,20 +21,34 @@ const ManageDoctor = () => {
             catch (err) { }
         }
     });
+
+    const deleteModal = (doctor) => {
+        const url = `http://localhost:5000/doctors/${doctor._id}`;
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    refetch();
+                    toast.success(`Doctor ${doctor.name} deleted successfully.`)
+                }
+            })
+    };
     if (isLoading) {
         return <Loading></Loading>
     };
     const closeModal = () => {
         setDeletingDoctor(null);
     };
-    const deleteModal = (doctor) => {
-        console.log(doctor);
-    }
+
     return (
-        <div>ManageDoctor {doctors?.length}
+        <div>
             <div className="overflow-x-auto">
                 <table className="table w-full">
-                    {/* head */}
                     <thead>
                         <tr>
                             <th></th>
@@ -73,6 +88,7 @@ const ManageDoctor = () => {
                     closeModal={closeModal}
                     modalData={deletingDoctor}
                     successAction={deleteModal}
+                    successButtonName='Delete'
                     message={`If you delete ${deletingDoctor.name}. It can't be undone`}
                 ></ConfirmationModal>
             }
