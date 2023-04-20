@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../../AuthProvider/AuthProvider'
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
 const DashboardAppointment = () => {
     const { user } = useContext(AuthContext)
@@ -34,18 +35,31 @@ const DashboardAppointment = () => {
                             <th>Treatment</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             bookings && bookings.map((booking, i) => {
-                                const { patientName, treatment, appointmentData, slot } = booking;
+                                const { patientName, treatment, appointmentData, slot, price, paid } = booking;
                                 return <tr key={booking._id}>
                                     <th>{i + 1}</th>
                                     <td>{patientName}</td>
                                     <td>{treatment}</td>
                                     <td>{appointmentData}</td>
                                     <td>{slot}</td>
+                                    <td>
+                                        {
+                                            price &&
+                                            !paid &&
+                                            <Link to={`/dashboard/payment/${booking._id}`}>
+                                                <button className="btn btn-sm btn-primary">Pay</button>
+                                            </Link>
+                                        }
+                                        {
+                                            price && paid && <spam className="text-primary">Paid</spam>
+                                        }
+                                    </td>
                                 </tr>
                             })
                         }
