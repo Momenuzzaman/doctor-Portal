@@ -1,7 +1,8 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React from 'react'
+import React, { useState } from 'react'
 
 const CheckoutForm = () => {
+    const [cardError, setCardError] = useState('')
     const stripe = useStripe();
     const elements = useElements();
     const handleSubmit = async (event) => {
@@ -22,7 +23,11 @@ const CheckoutForm = () => {
         })
 
         if (error) {
-            console.log(error)
+
+            setCardError(error.message);
+        }
+        else {
+            setCardError('');
         }
     };
     return (
