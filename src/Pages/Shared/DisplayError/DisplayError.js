@@ -8,7 +8,7 @@ const DisplayError = () => {
     return (
         <div>
             <p className='text-red-500'>Something went wrong!!!</p>
-            <p className='text-red-500'>{error.statusText || error.message}</p>
+            <p className='text-red-500'>{error.message}</p>
             <h3 className='text-3xl'>Please <button onClick={() => logOut()}>Log out</button> and log back in</h3>
         </div>
     )
